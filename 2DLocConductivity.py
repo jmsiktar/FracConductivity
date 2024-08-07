@@ -26,7 +26,7 @@ start = time.time()
 meshOn = False
 
 #Mesh construction
-numRefinements = 3
+numRefinements = 6
 mesh = meshFactory('disc', n = 8, radius = 1.0) #the n is a geometric parameter for disc construction, leave it at 8 unless changing the domain to a different shape
 
 #Indicates we refine the mesh numRefinements times
@@ -45,7 +45,8 @@ verbose = True
 eta = 1.0 #regularization parameter (in the paper this parameter is not formally introduced and its default value is 1)
 assert(eta > 0.0)
 
-aminCst = 0.1 #pointwise bounds on the design class
+#Admissible design class
+aminCst = 0.1 #pointwise bounds on the design class (user input)
 amaxCst = 2.0
 amin = functionFactory('constant', aminCst)
 amax = functionFactory('constant', amaxCst)
@@ -62,13 +63,18 @@ u = eqn_dm.zeros()
 
 #Solver parameters
 stepSize = 0.15 #corresponds to the parameter tau in the paper
-numIterations = 20
+numIterations = 20 #user input
 
 #Parallelization parameters
 wantProc = 0 #set to 1 if want multiprocessing, 0 if not
-numProcs = 5 #How many processes to use (not used if wantProc == 1)
+numProcs = 5 #How many processes to use (not used if wantProc == 0)
 
 # Forcing term (user input), g in L^2
+#xcenter = [-0.2,0.1]
+#radius = 0.25
+#intensity = 3.0
+#these are two sample options for forcing terms that were used to generate plots in the paper
+#g = functionFactory( 'Lambda', lambda x : intensity if (x[0] - xcenter[0])**2 + ( x[1] - xcenter[1] )**2 < radius*radius else 0.0 )
 g = functionFactory('constant', 1.0)
 
 # Discretizes g so we can calculate compliance with respect to discrete states
@@ -145,7 +151,7 @@ for k in range(numIterations):
     L2NormState = sqrt(u.inner(eqnMass * u)) #L2 norm state
     L2NormCoefficient = sqrt(afem.inner(coefficientMass * afem)) #L2 norm coefficient
     
-    ##compute values of cost functinoal
+    #Compute values of cost functinoal
     compliance = gDisc.inner(eqnMass * u) #this is the compliance term \int_{\Omega}gu
     regularization = eta * 0.5 * L2NormCoefficient * L2NormCoefficient #regularixation eta/2 * \|a\|^2_{L^2(\Omega)}
     costFunc = compliance + regularization
@@ -164,9 +170,9 @@ for k in range(numIterations):
     temp = eqnStiffness[i] * u
     firstRHSVecControl[i] = stepSize * u.inner(temp) #generates \tau \int_{\Omega}phi_i(x)|\grad u(x)|^2dx where phi_i is the ith shape function associated with the discretized coefficient class
 
-  secondRHSTermControl = (1.0 - eta * stepSize) * afunction #goal is to calculuate (1 - tau)\int_{\Omega}a(x)b(x) where a is current/previous coefficient and b is control space test function
+  secondRHSTermControl = (1.0 - eta * stepSize) * afunction #Goal is to calculuate (1 - tau)\int_{\Omega}a(x)b(x) where a is current/previous coefficient and b is control space test function
 
-  #this is the RHS for the equation solved to calculate the next candidate (unprojected) coefficient
+  #This is the RHS for the equation solved to calculate the next candidate (unprojected) coefficient
   descentRHS = coefficient_dm.assembleRHS(secondRHSTermControl) + firstRHSVecControl
   
   #Find the new coefficient by solving mass system with RHS descentRHS, stores result in the variable afem
