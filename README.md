@@ -5,7 +5,7 @@ This repository includes code used to simulate a nonlocal optimal conductivity p
 
 Mathematical features:
 
-~Kernels are of a truncated fractional type, so the user inputs are the horizon parameter and the fractional parameter 
+~Kernels are of a truncated fractional type, so the user inputs are the horizon parameter (a positive value) and the fractional parameter (value between 0 and 1, exclusive)
 
 ~The cost functional is a compliance term (with fixed forcing data) plus a regularization term
 
@@ -13,6 +13,6 @@ Mathematical features:
 
 ~The design space is discretized with piecewise constant functions, whereas the state space is discretized with continuous piecewise linear functions
 
-In addition to a nonlocal code file title: 2DNLocConductivity.py), a code for the corresponding local problem is also included (file title: 2DLocConductivity.py). This code uses the same cost functional, but the constraint is a weighted Poisson equation.
+In addition to a nonlocal code file (title: 2DNLocConductivity.py), a code for the corresponding local problem is also included (file title: 2DLocConductivity.py). This code uses the same cost functional, but the constraint is a weighted Poisson equation.
 
-The developers of this code are thankful for Christian Glusa answering questions pertaining to the development of our code.
+The developers of this code are thankful for Christian Glusa, who answering questions pertaining to the development of our code.
