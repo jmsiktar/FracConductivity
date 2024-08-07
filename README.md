@@ -9,6 +9,6 @@ Mathematical features:
 ~The admissible designs are positive and have pointwise bounds from above and below
 ~The design space is discretized with piecewise constant functions, whereas the state space is discretized with continuous piecewise linear functions
 
-In addition to a nonlocal code fFile title: 2DNLocConductivity.py), a code for the corresponding local problem is also included (file title: 2DLocConductivity.py). This code uses the same cost functional, but the constraint is a weighted Poisson equation.
+In addition to a nonlocal code file title: 2DNLocConductivity.py), a code for the corresponding local problem is also included (file title: 2DLocConductivity.py). This code uses the same cost functional, but the constraint is a weighted Poisson equation.
 
 The developers of this code are thankful for Christian Glusa answering questions pertaining to the development of our code.
