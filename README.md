@@ -15,4 +15,4 @@ Mathematical features:
 
 In addition to a nonlocal code file (title: 2DNLocConductivity.py), a code for the corresponding local problem is also included (file title: 2DLocConductivity.py). This code uses the same cost functional, but the constraint is a weighted Poisson equation.
 
-The developers of this code are thankful for Christian Glusa, who answering questions pertaining to the development of our code.
+The developers of this code are thankful for Christian Glusa, who answered questions pertaining to the development of our code.
